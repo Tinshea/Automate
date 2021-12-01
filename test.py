@@ -72,30 +72,36 @@ print(auto1.getListTransitionsFrom(s1))
 
 #Exercice 3
 
-#1 
-
-print("les succ sont")
-autosucc = Automate([t1,t2,t3,t4,t5,t6])
-print(autosucc.succ([s0,s1,s2],'a'))
-autosucc.show("test")
-
-
-#2
-print("accepté")
 s0 = State(0, True, False)
 s1 = State(1, False, False)
-s2 = State(2, True, True)
+s2 = State(2, False, True)
 
 t1 = Transition(s0,"a",s0)
 t2 = Transition(s0,"b",s1)
 t3 = Transition(s1,"a",s2)
-t4 = Transition(s1,"b",s2)
+t4 = Transition(s1,"b",s1)
 t5 = Transition(s2,"a",s0)
 t6 = Transition(s2,"b",s1)
-t7 = Transition(s0,"a",s1)
-autosaccept = Automate([t1,t2,t3,t4,t5,t6,t7])
-print(autosaccept.accepte(autosaccept,"aabb"))
-autosaccept.show("test2")
-#3
+t7 = Transition(s2,"b",s2)
 
-print(autosucc.estComplet(auto,"ab"))
+print("Automate A")
+auto = Automate([t1,t2,t3,t4,t5,t6,t7])
+print(auto)
+auto.show("Auto")
+
+#1 
+
+print("les succ sont")
+print(auto.succ([s0,s1,s2],'a'))
+auto.show("test")
+
+
+#2
+
+print("accepte")
+print(auto.accepte(auto,"abba"))
+
+
+#3
+print("Complet")
+print(auto.estComplet(auto,"ab"))

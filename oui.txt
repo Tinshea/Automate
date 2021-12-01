@@ -1,0 +1,70 @@
+"""automate = Automate.creationAutomate("exempleAutomate.txt")
+automate.show("exempleAutomate")
+## creation d’´etats
+# s1 : State
+s1 = State(1, True, False)
+
+# s2 : State
+s2 = State(2, False, True)
+
+# s3 : State
+s3 = State(3, True, True)
+
+## creation de transitions
+# t1 : Transition
+t1 = Transition(s1,"a",s1)
+# t2 : Transition
+t2 = Transition(s1,"a",s2)
+# t3 : Transition
+t3 = Transition(s1,"b",s2)
+# t4 : Transition
+t4 = Transition(s2,"a",s2)
+# t5 : Transition
+t5 = Transition(s2,"b",s2)
+
+t6 = Transition(s3,"b",s3)
+# liste : List[Transition]
+print("Automate 1")
+liste = [t1,t2,t3,t4,t5,t6]
+aut = Automate(liste)
+print(aut)
+
+
+# aut2 : Automate
+print("Automate 2")
+liste_trans = [t1,t2,t3,t4,t5]
+aut2 = Automate(liste_trans, label="A")
+print(aut2)
+liste_etat = [s1,s2,s3]
+auto1 = Automate(liste_trans, liste_etat)
+print(auto1)
+auto1.show("A")
+
+print("test.txt")
+auto2 = Automate.creationAutomate("Test.txt")
+print(auto2)
+
+ttest = Transition(s0, "a", s1)
+auto.removeTransition(ttest)
+#auto.show("test2") aucun changement car la transition ttest n'existait pas
+
+auto.removeTransition(t1)
+#auto.show("test2") disparition de la transition t1
+
+auto.addTransition(t1)
+#auto.show("test3") reapparition de la transition t1
+
+#auto.removeState(s1) disparition de s1
+#auto.show("test2")
+
+#auto.addState(s1) reapparition de s1 mais toutes ses transitions sont supprimees
+#auto.show("test3")
+
+#s2 = State(0, True, False)
+#auto.addState(s2) rien ne se passe
+#auto.removeState(s2) disparition de s0
+#auto.show("test4")
+
+print(auto1.getListTransitionsFrom(s1)) # = [[1-a->2(fin)], [1-b->2(fin)]]
+print(auto1.succ(listeE,"a"))
+print(auto1.succ(listeE,"b"))"""

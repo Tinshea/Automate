@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import re
 from transition import *
 from state import *
 import os
 import copy
-from itertools import product
+from itertools import permutations, product
 from automateBase import AutomateBase
 
 
@@ -50,18 +51,16 @@ class Automate(AutomateBase):
         """ Automate x str -> bool
         rend True si auto accepte mot, False sinon
         """
-        Liststateinitital=auto.getListInitialStates()
-        if  Liststateinitital==[]: return False
-        succelem=[]
-        for i in Liststateinitital:
-            succelem+=auto.succElem(i,mot[0])
-        
-        print(succelem)
-        
+        #parcours la liste 
+        L=auto.getListInitialStates()
+        for i in mot:
+           L=auto.succ(L,i) #permet de voir les etats possible avec une lettre 
+    
+        for j in L: # regarde si parmis L il y a un etat final
+            if j.fin:
+                return True
 
-        print(mot[len(mot)-1])
-        return True
-        
+        return False 
 
 
     @staticmethod
@@ -69,17 +68,12 @@ class Automate(AutomateBase):
         """ Automate x str -> bool
          rend True si auto est complet pour alphabet, False sinon
         """
-        list_transition=[]
-        listetiquette=[]
 
-        for i in auto.listStates:
-            list_transition=auto.getListTransitionsFrom (i)
-            for j in list_transition:
-                listetiquette+=j.etiquette
-                for k in alphabet:
-                    if k not in listetiquette:
-                        return False
-        
+        for j in auto.listStates: #On prend la liste d etat de l'automate
+            for i in alphabet:
+                 # on regarde si dans chaque etat on a un etat accesible pour chaque lettre de l'alphabet  
+                if auto.succElem(j,i)==[]:  
+                    return False
         return True 
 
 
@@ -107,6 +101,8 @@ class Automate(AutomateBase):
         """ Automate  -> Automate
         rend l'automate déterminisé d'auto
         """
+
+
         return
         
     @staticmethod

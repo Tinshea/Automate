@@ -104,10 +104,20 @@ class Automate(AutomateBase):
         """ Automate x str -> Automate
         rend l'automate complété d'auto, par rapport à alphabet
         """
+        autocpy=copy.deepcopy(auto)#on copie l automate
+        s = State(len(auto.listStates), False, False)#on cree un etat poubelle
+        for j in auto.listStates: #On prend la liste d etat de l'automate
+            for i in alphabet:
+                 # on regarde si dans chaque etat on a un etat accesible pour chaque lettre de l'alphabet  
+                if auto.succElem(j,i)==[]: #si il rend la liste vide cela veut dire qu'il n'a pas trouvé de sucesseur 
+                     t = Transition(j,i,s)#on cree la transition manquante
+                     autocpy.addState(s) #on ajoute l etat poubelle a lautomate
+                     autocpy.addTransition(t)#et on ajouete la transition manquante
+
+        return autocpy
+
+       
         
-        s0 = State(0, True, False)
-        t1 = Transition(s0,"a",s0)
-        return
 
        
 

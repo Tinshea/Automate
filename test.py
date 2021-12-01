@@ -76,7 +76,7 @@ print(auto1.getListTransitionsFrom(s1))
 
 print("les succ sont")
 autosucc = Automate([t1,t2,t3,t4,t5,t6])
-print(autosucc.succElem([s1],'a'))
+print(autosucc.succ([s0,s1,s2],'a'))
 autosucc.show("test")
 
 

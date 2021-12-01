@@ -82,8 +82,20 @@ autosucc.show("test")
 
 #2
 print("accepté")
-print(autosucc.accepte(auto,"aabb"))
+s0 = State(0, True, False)
+s1 = State(1, False, False)
+s2 = State(2, True, True)
 
+t1 = Transition(s0,"a",s0)
+t2 = Transition(s0,"b",s1)
+t3 = Transition(s1,"a",s2)
+t4 = Transition(s1,"b",s2)
+t5 = Transition(s2,"a",s0)
+t6 = Transition(s2,"b",s1)
+t7 = Transition(s0,"a",s1)
+autosaccept = Automate([t1,t2,t3,t4,t5,t6,t7])
+print(autosaccept.accepte(autosaccept,"aabb"))
+autosaccept.show("test2")
 #3
 
 print(autosucc.estComplet(auto,"ab"))

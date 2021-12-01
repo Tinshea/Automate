@@ -30,9 +30,8 @@ class Automate(AutomateBase):
         """
         tableau = []
         for i in listStates:
-            if self.succElem(i,lettre) not in tableau:
                 tableau+=self.succElem(i,lettre)
-        return tableau
+        return list(set(tableau))
         
 
 
@@ -51,17 +50,17 @@ class Automate(AutomateBase):
         """ Automate x str -> bool
         rend True si auto accepte mot, False sinon
         """
-        i = auto.getListInitialStates() #initialise i à la Liste des états initiaux de auto
-        if (i == []): 
-            return False 
-        for lettre in mot: #parcours le mot
-            i = auto.succ(i, lettre) #sinon i devient la liste des etats accessibles par etiquette
-        for e in i:
-            if e in auto.getListFinalStates():
-                return True
-            else:
-                return False
-        return False
+        Liststateinitital=auto.getListInitialStates()
+        if  Liststateinitital==[]: return False
+        succelem=[]
+        for i in Liststateinitital:
+            succelem+=auto.succElem(i,mot[0])
+        
+        print(succelem)
+        
+
+        print(mot[len(mot)-1])
+        return True
         
 
 

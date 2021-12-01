@@ -72,7 +72,7 @@ class Automate(AutomateBase):
         for j in auto.listStates: #On prend la liste d etat de l'automate
             for i in alphabet:
                  # on regarde si dans chaque etat on a un etat accesible pour chaque lettre de l'alphabet  
-                if auto.succElem(j,i)==[]:  
+                if auto.succElem(j,i)==[]: #si il rend la liste vide cela veut dire qu'il n'a pas trouvé de sucesseur 
                     return False
         return True 
 
@@ -83,7 +83,19 @@ class Automate(AutomateBase):
         """ Automate  -> bool
         rend True si auto est déterministe, False sinon
         """
-        return
+        #on recupere l'alphabet de l automate
+        alphabet=set()
+        for k in auto.listTransitions:
+            alphabet.add(k.etiquette)
+            
+        for j in auto.listStates: #On prend la liste d etat de l'automate
+            for i in alphabet:
+                 L=auto.succElem(j,i) #on recupere le/les succeseurs d'un état state par l'étiquette lettre
+                 if len(L)>=2: #si il a 2 ou plus de 2 succceuseur c'est qu'il n'est pas determinste
+                    return False
+        return True 
+
+
         
 
        
@@ -92,6 +104,9 @@ class Automate(AutomateBase):
         """ Automate x str -> Automate
         rend l'automate complété d'auto, par rapport à alphabet
         """
+        
+        s0 = State(0, True, False)
+        t1 = Transition(s0,"a",s0)
         return
 
        

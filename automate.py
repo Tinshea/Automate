@@ -113,7 +113,7 @@ class Automate(AutomateBase):
                      t = Transition(j,i,s)#on cree la transition manquante
                      autocpy.addState(s) #on ajoute l etat poubelle a lautomate
                      autocpy.addTransition(t)#et on ajouete la transition manquante
-
+                     autocpy.addTransition(Transition(s,i,s))
         return autocpy
 
        

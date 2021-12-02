@@ -123,5 +123,6 @@ print(auto.estDeterministe(auto))
 #5
 print("--------------------------")
 print("completeAutomate")
+auto.show("Auto")
 print(auto.completeAutomate(auto,"ab"))
 auto.completeAutomate(auto,"ab").show("Auto")

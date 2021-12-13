@@ -123,6 +123,13 @@ print(auto.estDeterministe(auto))
 #5
 print("--------------------------")
 print("completeAutomate")
-auto.show("Auto")
+auto.show("Autoc")
 print(auto.completeAutomate(auto,"ab"))
-auto.completeAutomate(auto,"ab").show("Auto")
+auto.completeAutomate(auto,"ab").show("Autoc")
+
+#exo 4 Determinisation
+print("--------------------------")
+print("Determinisation")
+auto.show("Auto")
+print(auto.determinisation(auto))
+auto.determinisation(auto).show("Auto")

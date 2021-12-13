@@ -120,88 +120,52 @@ class Automate(AutomateBase):
         return autocpy
 
        
-        
-
-       
 
     @staticmethod
-    def determinisation(auto) :
+    def determinisation(auto):
         """ Automate  -> Automate
         rend l'automate déterminisé d'auto
         """
-        #EZ Clap https://tenor.com/view/pepe-clap-clapping-applause-gif-10184275
-
-        #On crée l'état initial et l'ajoute à l'automate résultat
-        compteID = 0
-        listeInit = auto.getListInitialStates()
-        etatInitial : State = State(compteID, True, False, str(listeInit))
-
-        #L'état initial est aussi final si un de ses états l'est
-        for etat in listeInit :
-            if etat.fin:
-                etatInitial.fin = True
-                break
-
-        #On crée l'automate résultat avec notre état initial
-        autoRes = Automate(listStates = [etatInitial], listTransitions = [],label ="")
-
-        #On récupère l'alphabet de l'automate
-        alphabet = auto.alphabet()
-
-        #On crée notre dico ID de l'ensemble d'états : liste des états contenus dans notre ensemble d'états
-        dicoListe = {0 : listeInit}
-
-        #Ensemble des états dont on doit calculer les transitions crées
-        aTraiterEns = {etatInitial}
-        #Ensemble des états déjà vu, donc à ne pas recalculer
-        deja_vu = set()
-        #Pour stocker tous les nouveaux états à calculer
-        tempEtats = set()
-        #Un état temp pour nos calculs
-        etatTemp : State = etatInitial
-
-        while aTraiterEns != set():
-            #Tant qu'on a des nouveaux états à traiter
-            for aTraiterEtat in aTraiterEns:
-                for lettre in alphabet:
-                    listeSucc = auto.succ(dicoListe[aTraiterEtat.id] ,lettre)
-                    #Liste des successeurs
-
-                    labelEtat = str(listeSucc) #Calcul du label de l'état
-
-                    for etat in autoRes.listStates:
-                        #On regarde si l'état avec le label correspondant existe déjà
-                        if etat.label == labelEtat:
-                            etatTemp = etat
-                            break
-                    if etatTemp.label != labelEtat:
-                        #Si le label ne match pas, c'est qu'on n'a pas trouvé d'état correspondant
-                        compteID+=1
-                        #On incrémente l'ID et crée l'état
-                        etatTemp : State = State(compteID, False, False, str(listeSucc))
-                        dicoListe[compteID]=listeSucc
-                        #On stocke la liste des états correspondants à l'ID dans notre dictionnaire
-                        for etat in listeSucc:
-                            #On rend l'état final s'il contient au moins un état final
-                            if etat.fin:
-                                etatTemp.fin = True
-                                break
-
-
-                    autoRes.addTransition(Transition(aTraiterEtat, lettre, etatTemp))
-                    #On crée la transition de l'état aTraiter à l'état suivant
-                    tempEtats.add(etatTemp)
-                    #On ajoute le nouvel état à notre ensemble des successeurs à calculer
-
-            deja_vu = deja_vu | aTraiterEns
-            #Les ensembles qu'on a traité deviennent déjà vu
-            aTraiterEns = tempEtats - deja_vu
-            #Les prochains états à calculer sont les successeurs
-            #moins ceux déjà visités
-            tempEtats = set()
-
-
-        return autoRes
+        if Automate.estDeterministe(auto):
+            return auto
+        # auto_d : Automate
+        auto_d = copy.deepcopy(auto)
+        # list_Tous_Etat: List[set(States)]
+        list_Tous_Etat = [list(auto_d.getListInitialStates())] #recuperer tout les etats
+        # list_transition : List[Transition]
+        list_transition = [] #liste de transition
+        #set_etat : set(State)
+        for set_etat in list_Tous_Etat:
+            #lettre: str
+            for lettre in auto_d.getAlphabetFromTransitions():
+                #verifie si la liste des successeurs n'est pas vide pour tous les etats pour la lettre donnée en parametre et qu'elle n'est pas dans la liste List_Tous_Etat
+                if ((len(auto_d.succ(set_etat, lettre))) != [] and (list(auto_d.succ(set_etat, lettre))) not in list_Tous_Etat): 
+                    list_Tous_Etat.append(list(auto_d.succ(set_etat, lettre))) #ajout de la liste successeur a la liste list_Tous_Etat
+                # Etat_In: Bool
+                Etat_In = False
+                # Etat_Fin: Bool
+                Etat_Fin = False
+                if list(set_etat) == auto_d.getListInitialStates(): #met a jour etat s'il est initiale ou finale
+                    Etat_In = True
+                if list(set_etat) == auto_d.getListFinalStates():
+                    Etat_Fin = True
+                # Etat_Old: State
+                Etat_Old = State((list_Tous_Etat.index(list(set_etat))), Etat_In, Etat_Fin) #creation de l'etat Etat_Old
+                Etat_In = False
+                Etat_Fin = False
+                #etat : State
+                for etat in auto_d.succ(set_etat, lettre): 
+                    if etat in auto_d.getListFinalStates(): #met a jour etat
+                        Etat_Fin = True
+                # Etat_New: State
+                Etat_New = State((list_Tous_Etat.index(list(auto_d.succ(set_etat, lettre)))), Etat_In, Etat_Fin) #creation de l'etat Etat_New
+                # t: Transition
+                t = Transition(Etat_Old, lettre, Etat_New) #creation de la transition
+                if t not in list_transition:
+                    list_transition.append(t) #ajoute la transition t dans la liste list_transition si t n'est pas dans la liste
+        #auto_finale : Automate
+        auto_f = Automate(list_transition)
+        return auto_f
 
 
         
@@ -231,6 +195,8 @@ class Automate(AutomateBase):
         """ Automate x Automate -> Automate
         rend l'automate acceptant pour langage l'intersection des langages des deux automates
         """
+        
+
         return
 
     @staticmethod

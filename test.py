@@ -80,22 +80,8 @@ print(auto1.getListTransitionsFrom(s1))
 
 #Exercice 3
 
-s0 = State(0, True, False)
-s1 = State(1, False, False)
-s2 = State(2, False, True)
-
-t1 = Transition(s0,"a",s0)
-
-
-t4 = Transition(s1,"b",s1)
-t5 = Transition(s2,"a",s0)
-t6 = Transition(s2,"b",s1)
-t7 = Transition(s2,"b",s0)
-print("--------------------------")
-print("Automate A")
-auto = Automate([t1,t4,t5,t6,t7])
-print(auto)
-auto.show("Auto")
+auto = Automate.creationAutomate("exempleAutomate.txt")
+auto.show("exempleAutomate")
 
 #1 
 print("--------------------------")
@@ -132,4 +118,15 @@ print("--------------------------")
 print("Determinisation")
 auto.show("Auto")
 print(auto.determinisation(auto))
-auto.determinisation(auto).show("Auto")
+auto.determinisation(auto).show("Autodert")
+
+#exo 5 complementaire
+print("complementaire")
+auto.show("Auto")
+print(auto.complementaire(auto,"ab"))
+auto.complementaire(auto,"ab").show("Autocom")
+#exo 5 complementaire
+print("Intersection")
+auto.show("Auto")
+print(auto.intersection(auto,auto1))
+auto.intersection(auto,auto1).show("AutoInter")
